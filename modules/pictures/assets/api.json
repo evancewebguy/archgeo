@@ -1,0 +1,150 @@
+{
+    "Upload": {
+        "url_segments": "pictures/upload/{target_module}/{update_id}",
+        "request_type": "POST",
+        "description": "The endpoint for gallery uploads.",
+        "enableParams": false,
+        "required_fields": [{
+                "name": "update_id",
+                "label": "Update ID"
+            },
+            {
+                "name": "target_module",
+                "label": "Target Module"
+            }
+        ],
+        "authorization": {
+            "roles": [
+                "admin"
+            ]
+        }
+    },
+    "Remove": {
+        "url_segments": "pictures/upload/{target_module}/{update_id}",
+        "request_type": "DELETE",
+        "description": "Removes then fetches remaining pictures.",
+        "enableParams": false,
+        "required_fields": [{
+                "name": "update_id",
+                "label": "Update ID"
+            },
+            {
+                "name": "target_module",
+                "label": "Target Module"
+            }
+        ],
+        "authorization": "*"
+    },
+    "Ditch": {
+        "url_segments": "pictures/ditch",
+        "request_type": "POST",
+        "description": "Removes item (from uploader page).",
+        "enableParams": false,
+        "authorization": {
+            "roles": [
+                "admin"
+            ]
+        }
+    },
+
+    "Get": {
+        "url_segments": "api/get/pictures",
+        "request_type": "GET",
+        "description": "Fetch rows from table",
+        "enableParams": true,
+        "authorization": {
+            "roles": [
+                "admin"
+            ]
+        }
+    },
+    "Get By Post": {
+        "url_segments": "api/get/pictures",
+        "request_type": "POST",
+        "description": "Fetch rows from table using POST request.",
+        "enableParams": true,
+        "authorization": {
+            "roles": [
+                "admin"
+            ]
+        }
+    },
+    "Find One": {
+        "url_segments": "api/get/pictures/{id}",
+        "request_type": "GET",
+        "description": "Fetch one row",
+        "required_fields": [{
+            "name": "id",
+            "label": "ID"
+        }]
+    },
+    "Exists": {
+        "url_segments": "api/exists/pictures/{id}",
+        "request_type": "GET",
+        "description": "Check if instance exists",
+        "required_fields": [{
+            "name": "id",
+            "label": "ID"
+        }]
+    },
+    "Count": {
+        "url_segments": "api/count/pictures",
+        "request_type": "GET",
+        "description": "Count number of records",
+        "enableParams": true
+    },
+    "Count By Post": {
+        "url_segments": "api/count/pictures",
+        "request_type": "POST",
+        "description": "Count number of records using POST request",
+        "enableParams": true,
+        "authorization": {
+            "roles": [
+                "admin"
+            ]
+        }
+    },
+    "Create": {
+        "url_segments": "api/create/pictures",
+        "request_type": "POST",
+        "description": "Insert database record",
+        "enableParams": true
+    },
+    "Insert Batch": {
+        "url_segments": "api/batch/pictures",
+        "request_type": "POST",
+        "description": "Insert multiple records",
+        "enableParams": true
+    },
+    "Update": {
+        "url_segments": "api/update/pictures/{id}",
+        "request_type": "PUT",
+        "description": "Update a database record",
+        "enableParams": true,
+        "required_fields": [{
+            "name": "id",
+            "label": "ID"
+        }],
+        "authorization": {
+            "roles": [
+                "admin"
+            ]
+        }
+    },
+    "Destroy": {
+        "url_segments": "api/destroy/pictures",
+        "request_type": "DELETE",
+        "description": "Delete row or rows",
+        "enableParams": true
+    },
+    "Delete One": {
+        "url_segments": "api/delete/pictures/{id}",
+        "request_type": "DELETE",
+        "description": "Delete one row",
+        "required_fields": [{
+            "name": "id",
+            "label": "ID"
+        }]
+    }
+
+}

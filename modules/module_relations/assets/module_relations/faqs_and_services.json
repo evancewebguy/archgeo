@@ -1,0 +1,1 @@
+[{"module_name":"faqs","record_name_singular":"faq","record_name_plural":"faqs","identifier_column":"question"},{"module_name":"services","record_name_singular":"service","record_name_plural":"services","identifier_column":"service_name"},{"relationship_type":"many to many"}]

@@ -1,0 +1,1 @@
+[{"module_name":"blog_categories","record_name_singular":"blog category","record_name_plural":"blog categories","identifier_column":"category_name"},{"module_name":"blog_notices","record_name_singular":"blog notice","record_name_plural":"blog notices","identifier_column":"blog_title"},{"relationship_type":"many to many"}]

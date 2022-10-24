@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../eboardadmin"
+		},
+		{
+			"path": "../apis"
+		},
+		{
+			"path": "../legacy_eboard"
+		},
+		{
+			"path": "../eboard_74_migration"
+		}
+	],
+	"settings": {}
+}
