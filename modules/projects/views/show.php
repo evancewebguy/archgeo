@@ -92,7 +92,13 @@
             }
             ?>
         </div>
-    </div><?= Modules::run('my_filezone/_draw_summary_panel', $update_id, $filezone_settings); ?>
+    </div>
+    
+    <?= Modules::run('my_filezone/_draw_summary_panel', $update_id, $filezone_settings); ?>
+
+    
+    <?= Modules::run('module_relations/_draw_summary_panel', 'project_categorys', $token) ?>
+
     <div class="card">
         <div class="card-heading">
             Comments

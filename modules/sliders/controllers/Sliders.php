@@ -164,6 +164,7 @@ class Sliders extends Trongate {
                 $data = $this->_get_data_from_post();
                 $data['url_string'] = strtolower(url_title($data['title']));
                 $data['title'] = str_replace('<script>', '',$data['title']);
+                $data['button_name'] = str_replace('<script>', '',$data['button_name']);
                 $data['description'] = str_replace('<script>', '',$data['description']);
 
                 if (is_numeric($update_id)) {
@@ -275,6 +276,7 @@ class Sliders extends Trongate {
 
     function _get_data_from_post() {
         $data['title'] = post('title');
+        $data['button_name'] = post('button_name');
         $data['description'] = post('description');
         $data['link'] = post('link', true);        
         return $data;

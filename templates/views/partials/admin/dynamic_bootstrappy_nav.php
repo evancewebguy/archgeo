@@ -26,7 +26,15 @@
 		<li><?= anchor('dashboards/manage', '<i class=\'fa fa-shopping-cart\'></i> Orders') ?></li>
         <li><?= anchor('newsletters/manage', '<i class="fa fa-envelope-o"></i> Manage Newsletters') ?></li>
         <li><?= anchor('services/manage', '<i class="fa fa-gears"></i> Manage Services') ?></li>
-        <li><?= anchor('projects/manage', '<i class="fa fa-list-ol"></i> Manage Projects') ?></li>
+
+        <!-- Project dropdown -->
+        <li class="dropdown"><div><i class="fa fa-list-ol"></i> Manage Projects</div><div><i class="fa fa-caret-right"></i></div></li>
+        <li class="dropdown-area">
+			<ul>
+                <li><?= anchor('projects/manage', 'Projects') ?></li>
+                <li><?= anchor('project_categorys/manage', 'Project Categories') ?></li>
+	  	    </ul>				
+		</li>
 
         <!-- Blog dropdown -->
         <li class="dropdown"><div><i class="fa fa-list-ol"></i> Manage News</div><div><i class="fa fa-caret-right"></i></div></li>

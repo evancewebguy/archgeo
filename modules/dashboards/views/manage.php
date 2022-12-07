@@ -32,10 +32,6 @@
 
 </div>
 
-
-
-
-
 <div class="three-col">
     <div class="card">
         <div class="card-heading">

@@ -14,4 +14,5 @@
     <li><?= anchor('newsletters/manage', '<i class="fa fa-envelope-o"></i> Manage Newsletters') ?></li>
     <li><?= anchor('sliders/manage', '<i class="fa fa-exchange"></i> Manage Sliders') ?></li>
     <li><?= anchor('dashboards/manage', '<i class="fa fa-dashboard"></i> Dashboard') ?></li>
+    <li><?= anchor('project_categorys/manage', '<i class="fa fa-question-circle-o"></i> Manage Project_categories') ?></li>
 </ul>

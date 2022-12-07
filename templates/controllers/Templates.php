@@ -2,6 +2,18 @@
 class Templates extends Trongate {
 
     function bootstrappy($data) {
+        if (isset($data['additional_includes_top'])) {
+            $data['additional_includes_top'] = $this->_build_additional_includes($data['additional_includes_top']);
+        } else {
+            $data['additional_includes_top'] = '';
+        }
+
+        if (isset($data['additional_includes_btm'])) {
+            $data['additional_includes_btm'] = $this->_build_additional_includes($data['additional_includes_btm']);
+        } else {
+            $data['additional_includes_btm'] = '';
+        }
+        
         load('bootstrappy', $data);
     }
 
@@ -43,7 +55,7 @@ class Templates extends Trongate {
             $data['additional_includes_btm'] = '';
         }
 
-        load('bootsrappy', $data);
+        load('admin', $data);
     }
 
     function _build_css_include_code($file) {
@@ -72,13 +84,11 @@ class Templates extends Trongate {
                $html.= $this->_build_js_include_code($file);
             }
 
-            $html.= '
-    ';
+            $html.= '';
         }
 
         $html = trim($html);
-        $html.= '
-';
+        $html.= '';
         return $html;
     }
 

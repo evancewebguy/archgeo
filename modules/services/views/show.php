@@ -107,6 +107,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal" id="comment-modal" style="display: none;">
     <div class="modal-heading"><i class="fa fa-commenting-o"></i> Add New Comment</div>
     <div class="modal-body">

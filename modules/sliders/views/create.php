@@ -9,6 +9,8 @@
         echo form_open($form_location);
         echo form_label('Title');
         echo form_textarea('title', $title, array("placeholder" => "Enter Title", "class" =>"cleditor", "id" => "textarea"));
+        echo form_label('Button Name');
+        echo form_input('button_name', $button_name, array("placeholder" => "Enter Button Name"));
         echo form_label('Description');
         echo form_textarea('description', $description, array("placeholder" => "Enter Description", "class" =>"cleditor", "id" => "textarea"));
         echo form_label('Link <span>(optional)</span>');

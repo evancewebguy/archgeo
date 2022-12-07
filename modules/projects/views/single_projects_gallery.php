@@ -56,7 +56,6 @@
 
 <script>
 	$(document).ready(function() {
-		
 		$("#owl-demo").owlCarousel({
 			loop: true,
 			margin: 10,
@@ -82,14 +81,14 @@
 				}
 			}
 		});
-		});
+	});
 
 
-        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-                event.preventDefault();
-                $(this).ekkoLightbox(
-                );
-            });
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox(
+        );
+    });
 
 
 </script>

@@ -102,10 +102,8 @@ class Pagination {
             $limit = $data['limit'];
         }
 
-        $segments = get_segments(true);
-        $segments = $segments['segments'];
-        unset($segments[4]);
-
+        $segments_data = get_segments(true);
+        $segments = $segments_data['segments'];
         $current_page = self::get_page_num($page_num_segment, $segments);
         $num_pages = (int) ceil($total_rows / $limit);
 
@@ -131,7 +129,6 @@ class Pagination {
             }
 
             return $showing_statement;
-
         }
 
         $target_settings_method = 'get_settings_'.$pagination_template;
@@ -331,35 +328,6 @@ class Pagination {
         $settings['next_link'] = '&raquo;';
         $settings['next_link_open'] = '';
         $settings['next_link_close'] = '';
-        return $settings;
-    }
-
-    static public function get_settings_custom() {
-
-        $settings['pagination_open'] = '<div class="pagination"><ul class="pagination-list">';
-        $settings['pagination_close'] = '</ul></div>';
-
-        $settings['cur_link_open'] = '<li class="active"><a href="#">';
-        $settings['cur_link_close'] = '</a></li>';
-
-        $settings['num_link_open'] = '<li>';
-        $settings['num_link_close'] = '</li>';
-
-        $settings['first_link'] = 'First';
-        $settings['first_link_open'] = '<li>';
-        $settings['first_link_close'] = '</li>';
-
-        $settings['last_link'] = 'Last';
-        $settings['last_link_open'] = '<li>';
-        $settings['last_link_close'] = '</li>';
-
-        $settings['prev_link'] = '<i class="icofont-rounded-left"></i>';
-        $settings['prev_link_open'] = '<li>';
-        $settings['prev_link_close'] = '</li>';
-
-        $settings['next_link'] = '<i class="icofont-rounded-right"></i>';
-        $settings['next_link_open'] = '<li>';
-        $settings['next_link_close'] = '</li>';
         return $settings;
     }
 

@@ -1,0 +1,1 @@
+[{"module_name":"project_categorys","record_name_singular":"project_category","record_name_plural":"project_categorys","identifier_column":"category_name"},{"module_name":"projects","record_name_singular":"project","record_name_plural":"projects","identifier_column":"client_name"},{"relationship_type":"many to many"}]

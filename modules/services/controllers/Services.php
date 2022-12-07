@@ -34,8 +34,6 @@ class Services extends Trongate {
 
         $data['faqs_options'] = $this->_get_faqs_options($data['faqs_id']);
 
-        $data['faqs_options'] = $this->_get_faqs_options($data['faqs_id']);
-
         if (is_numeric($update_id)) {
             $data['headline'] = 'Update Service Record';
             $data['cancel_url'] = BASE_URL.'services/show/'.$update_id;
@@ -43,7 +41,6 @@ class Services extends Trongate {
             $data['headline'] = 'Create New Service Record';
             $data['cancel_url'] = BASE_URL.'services/manage';
         }
-
 
         $additional_includes_top[] = BASE_URL.'services_module/cleditor/jquery.cleditor.css';
         $additional_includes_top[] = BASE_URL.'services_module/js/jquery-1.8.2.min.js';

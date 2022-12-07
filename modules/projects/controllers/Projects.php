@@ -282,7 +282,7 @@ class Projects extends Trongate {
         if ($submit == 'Submit') {
 
             $this->validation_helper->set_rules('client_name', 'Client Name', 'min_length[2]|max_length[255]');
-            $this->validation_helper->set_rules('nature_of_the_project', 'Nature of the project', 'min_length[2]|max_length[255]|required');
+            // $this->validation_helper->set_rules('nature_of_the_project', 'Nature of the project', 'min_length[2]|max_length[255]|required');
             $this->validation_helper->set_rules('year', 'Year', 'required|valid_datepicker_us');
             $this->validation_helper->set_rules('status', 'Status', 'required|min_length[2]|max_length[255]');
             $this->validation_helper->set_rules('project_description', 'Project Description', 'required|min_length[2]');
@@ -408,7 +408,7 @@ class Projects extends Trongate {
         $data['nature_of_the_project'] = post('nature_of_the_project', true);
         $data['year'] = post('year', true);
         $data['status'] = post('status', true);
-        $data['project_description'] = post('project_description', true);        
+        $data['project_description'] = post('project_description', true);    
         return $data;
     }
 

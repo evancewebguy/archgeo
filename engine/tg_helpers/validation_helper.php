@@ -4,6 +4,10 @@ class Validation_helper {
     public $form_submission_errors = [];
     public $posted_fields = [];
 
+    public function say_hello() {
+        echo 'hello from validation helper'; die();
+    }
+
     public function set_rules($key, $label, $rules) {
 
         if ((!isset($_POST[$key])) && (isset($_FILES[$key]))) {
@@ -15,7 +19,12 @@ class Validation_helper {
             $posted_value = $_FILES[$key];
             $tests_to_run[] = 'validate_file';
         } else {
-            $posted_value = $_POST[$key];
+
+            if (isset($_POST[$key])) {
+                $_POST[$key] = trim($_POST[$key]);
+            }
+
+            $posted_value = isset($_POST[$key]) ? $_POST[$key] : '';
             $tests_to_run = $this->get_tests_to_run($rules);
         }
 
@@ -34,44 +43,47 @@ class Validation_helper {
     }
 
     private function run_validation_test($validation_data, $rules=null) {
-        extract($validation_data);
 
-        switch ($test_to_run) {
+        switch ($validation_data['test_to_run']) {
             case 'required':
-                $this->check_for_required($label, $posted_value);
+                $this->check_for_required($validation_data);
                 break;
             case 'numeric':
-                $this->check_for_numeric($label, $posted_value);
+                $this->check_for_numeric($validation_data);
                 break;
             case 'integer':
-                $this->check_for_integer($label, $posted_value);
+                $this->check_for_integer($validation_data);
                 break;
             case 'decimal':
-                $this->check_for_decimal($label, $posted_value);
+                $this->check_for_decimal($validation_data);
                 break;
             case 'valid_email':
-                $this->valid_email($label, $posted_value);
+                $this->valid_email($validation_data);
                 break;
             case 'validate_file':
-                $this->validate_file($key, $label, $rules);
+                $this->validate_file($validation_data['key'], $validation_data['label'], $rules);
                 break;
             case 'valid_datepicker_us':
-                $this->valid_datepicker_us($label, $posted_value);
+                $this->valid_datepicker_us($validation_data);
                 break;
             case 'valid_datepicker_eu':
-                $this->valid_datepicker_eu($label, $posted_value);
+                $this->valid_datepicker_eu($validation_data);
                 break;
             case 'valid_datetimepicker_us':
-                $this->valid_datetimepicker_us($label, $posted_value);
+                $this->valid_datetimepicker_us($validation_data);
                 break;
             case 'valid_datetimepicker_eu':
-                $this->valid_datetimepicker_eu($label, $posted_value);
+                $this->valid_datetimepicker_eu($validation_data);
                 break;
             case 'valid_time':
-                $this->valid_time($label, $posted_value);
+                $this->valid_time($validation_data);
+                break;
+            case 'unique':
+                $inner_value = $validation_data['inner_value'] ?? 0;
+                $this->unique($validation_data, $inner_value);
                 break;
             default:
-                $this->run_special_test($key, $label, $posted_value, $test_to_run);
+                $this->run_special_test($validation_data);
                 break;
         }
 
@@ -158,51 +170,50 @@ class Validation_helper {
         return $tests_to_run;
     }
 
-    private function check_for_required($label, $posted_value) {
-        
-        $posted_value = trim($posted_value);
+    private function check_for_required($validation_data) {
+        extract($validation_data);
+        $posted_value = trim($validation_data['posted_value']);
 
         if ($posted_value == '') {
-            $this->form_submission_errors[] = 'The '.$label.' field is required.';  
+            $this->form_submission_errors[$key][] = 'The '.$label.' field is required.';  
         }
 
     }
 
-    private function check_for_numeric($label, $posted_value) {
-        
+    private function check_for_numeric($validation_data) {
+        extract($validation_data);
         if ((!is_numeric($posted_value)) && ($posted_value !== '')) {
-            $this->form_submission_errors[] = 'The '.$label.' field must be numeric.';
+            $this->form_submission_errors[$key][] = 'The '.$label.' field must be numeric.';
         }
-
     }
 
-    private function check_for_integer($label, $posted_value) {
-
+    private function check_for_integer($validation_data) {
+        extract($validation_data);
         if ($posted_value !== '') {
 
             $result = ctype_digit(strval($posted_value));
 
             if ($result == false) {
-                $this->form_submission_errors[] = 'The '.$label.' field must be an integer.';
+                $this->form_submission_errors[$key][] = 'The '.$label.' field must be an integer.';
             }
 
         }
 
     }
 
-    private function check_for_decimal($label, $posted_value) {
-
+    private function check_for_decimal($validation_data) {
+        extract($validation_data);
         if ($posted_value !== '') {
 
             if ((float) $posted_value == floor($posted_value)) {
-                $this->form_submission_errors[] = 'The '.$label.' field must contain a number with a decimal.';
+                $this->form_submission_errors[$key][] = 'The '.$label.' field must contain a number with a decimal.';
             }
 
         }
     }
 
-    private function valid_datepicker_us($label, $posted_value) {
-
+    private function valid_datepicker_us($validation_data) {
+        extract($validation_data);
         if ($posted_value !== '') {
 
             try {
@@ -212,15 +223,15 @@ class Validation_helper {
 
             } catch (Exception $e) {
 
-                $this->form_submission_errors[] = 'The '.$label.' field must contain a valid datepicker value of the format mm-dd-yyyy.';
+                $this->form_submission_errors[$key][] = 'The '.$label.' field must contain a valid datepicker value of the format mm-dd-yyyy.';
             }
 
         }
         
     }
 
-    private function valid_datepicker_eu($label, $posted_value) {
-
+    private function valid_datepicker_eu($validation_data) {
+        extract($validation_data);
         if ($posted_value !== '') {
 
             $day = substr($posted_value, 0, 2);
@@ -235,15 +246,15 @@ class Validation_helper {
                 return true;
 
             } catch (Exception $e) {
-                $this->form_submission_errors[] = 'The '.$label.' field must contain a valid datepicker value of the format dd-mm-yyyy.';
+                $this->form_submission_errors[$key][] = 'The '.$label.' field must contain a valid datepicker value of the format dd-mm-yyyy.';
             }
 
         }
         
     }
 
-    private function valid_datetimepicker_us($label, $posted_value) {
-
+    private function valid_datetimepicker_us($validation_data) {
+        extract($validation_data);
         if ($posted_value !== '') {
 
             try {
@@ -253,15 +264,15 @@ class Validation_helper {
 
             } catch (Exception $e) {
 
-                $this->form_submission_errors[] = 'The '.$label.' field must contain a valid datetime picker value.';
+                $this->form_submission_errors[$key][] = 'The '.$label.' field must contain a valid datetime picker value.';
             }
 
         }
 
     }
 
-    private function valid_datetimepicker_eu($label, $posted_value) {
-
+    private function valid_datetimepicker_eu($validation_data) {
+        extract($validation_data);
         if ($posted_value !== '') {
 
             try {
@@ -277,15 +288,15 @@ class Validation_helper {
 
             } catch (Exception $e) {
 
-                $this->form_submission_errors[] = 'The '.$label.' field must contain a valid datetime picker value.';
+                $this->form_submission_errors[$key][] = 'The '.$label.' field must contain a valid datetime picker value.';
             }
 
         }
 
     }
 
-    private function valid_time($label, $posted_value) {
-
+    private function valid_time($validation_data) {
+        extract($validation_data);
         if ($posted_value !== '') {
 
             $got_error = true;
@@ -310,14 +321,14 @@ class Validation_helper {
             }
 
             if ($got_error == true) {
-                $this->form_submission_errors[] = 'The '.$label.' field must contain a valid time value.';
+                $this->form_submission_errors[$key][] = 'The '.$label.' field must contain a valid time value.';
             }
 
         }
 
     }
 
-    private function matches($label, $posted_value, $target_field) {
+    private function matches($key, $label, $posted_value, $target_field) {
 
         $got_error = false;
 
@@ -338,12 +349,12 @@ class Validation_helper {
                 $target_field = $this->posted_fields[$target_field];
             }
 
-           $this->form_submission_errors[] = 'The '.$label.' field does not match the '.$target_field.' field.'; 
+           $this->form_submission_errors[$key][] = 'The '.$label.' field does not match the '.$target_field.' field.'; 
         }
 
     }
 
-    private function differs($label, $posted_value, $target_field) {
+    private function differs($key, $label, $posted_value, $target_field) {
         //returns false if form element does not differ from the one in the parameter.
         $got_error = false;
 
@@ -358,7 +369,7 @@ class Validation_helper {
         }
 
         if ($got_error == true) {
-           $this->form_submission_errors[] = 'The '.$label.' field must not match the '.$target_field.' field.'; 
+           $this->form_submission_errors[$key][] = 'The '.$label.' field must not match the '.$target_field.' field.'; 
         }
 
     }
@@ -366,7 +377,7 @@ class Validation_helper {
     private function min_length($key, $label, $posted_value, $inner_value) {
 
         if ((strlen($_POST[$key]) < $inner_value) && ($posted_value !== '')) {
-            $this->form_submission_errors[] = 'The ' . $label . ' field must be at least ' . $inner_value . ' characters in length.';
+            $this->form_submission_errors[$key][] = 'The ' . $label . ' field must be at least ' . $inner_value . ' characters in length.';
         }
     }
 
@@ -374,7 +385,50 @@ class Validation_helper {
     private function max_length($key, $label, $posted_value, $inner_value) {
 
         if ((strlen($_POST[$key]) > $inner_value) && ($posted_value !== '')) {
-            $this->form_submission_errors[] = 'The ' . $label . ' field must be no more than  ' . $inner_value . ' characters in length.';
+            $this->form_submission_errors[$key][] = 'The ' . $label . ' field must be no more than  ' . $inner_value . ' characters in length.';
+        }
+    }
+
+    private function unique($key, $label, $posted_value, $inner_value=null) {
+
+        if ($posted_value == '') {
+            return;
+        }
+
+        $forbidden_values[] = $posted_value;
+
+        $bits = explode(',', $inner_value);
+        if (count($bits) == 2) {
+            $allowed_id = $bits[0];
+            $table_name = $bits[1];
+        } else {
+            $allowed_id = $inner_value;
+            $table_name = SEGMENTS[1];
+        }
+
+        settype($allowed_id, 'int');
+
+        require_once(__DIR__.'/../Model.php');
+        $model = new Model();
+
+        $sql = 'select * from '.$table_name;
+        $rows = $model->query($sql, 'object');
+
+        $forbidden_values[] = trim(strip_tags($posted_value));
+        $forbidden_values[] = preg_replace('/\s+/', ' ', $posted_value);
+
+        if (!defined('ALLOW_SPECIAL_CHARACTERS')) {
+            //filter out potentially malicious characters
+            $forbidden_values[] = remove_special_characters($posted_value);
+        }
+
+        foreach($rows as $row) {
+            $row_id = $row->id;
+            $row_target_value = $row->$key;
+            if ((in_array($row_target_value, $forbidden_values)) && ($row->id !== $allowed_id)) {
+                $this->form_submission_errors[$key][] = 'The ' . $label . ' that you submitted is already on our system.';
+                break;                 
+            }
         }
     }
 
@@ -382,7 +436,7 @@ class Validation_helper {
     private function greater_than($key, $label, $posted_value, $inner_value) {
 
         if (((is_numeric($_POST[$key])) && ($_POST[$key]<=$inner_value)) && ($posted_value !== '')) {
-            $this->form_submission_errors[] = 'The '.$label.' field must greater than '.$inner_value;
+            $this->form_submission_errors[$key][] = 'The '.$label.' field must greater than '.$inner_value.'.';
         }
 
     }
@@ -390,15 +444,15 @@ class Validation_helper {
     private function less_than($key, $label, $posted_value, $inner_value) {
 
         if (((is_numeric($_POST[$key])) && ($_POST[$key]>=$inner_value)) && ($posted_value !== '')) {
-            $this->form_submission_errors[] = 'The '.$label.' field must less than '.$inner_value;
+            $this->form_submission_errors[$key][] = 'The '.$label.' field must less than '.$inner_value.'.';
         }
         
     }
 
-    private function valid_email($label, $posted_value) {
-
+    private function valid_email($validation_data) {
+        extract($validation_data);
         if ((!filter_var($posted_value, FILTER_VALIDATE_EMAIL)) && ($posted_value !== '')) {
-            $this->form_submission_errors[] = 'The '.$label.' field must contain a valid email address.';
+            $this->form_submission_errors[$key][] = 'The '.$label.' field must contain a valid email address.';
         }
 
     }
@@ -413,13 +467,13 @@ class Validation_helper {
                 $error_msg = str_replace('characters in length.', 'character in length.', $error_msg);
             }
 
-            $this->form_submission_errors[] = $error_msg;
+            $this->form_submission_errors[$key][] = $error_msg;
         }
 
     }
 
-    private function run_special_test($key, $label, $posted_value, $test_to_run) {
-
+    private function run_special_test($validation_data) {
+        extract($validation_data);
         $pos = strpos($test_to_run, '[');
 
         if (is_numeric($pos)) {
@@ -435,16 +489,19 @@ class Validation_helper {
 
             switch ($test_name) {
                 case 'matches':
-                    $this->matches($label, $posted_value, $inner_value);
+                    $this->matches($key, $label, $posted_value, $inner_value);
                     break;
                 case 'differs':
-                    $this->differs($label, $posted_value, $inner_value);
+                    $this->differs($key, $label, $posted_value, $inner_value);
                     break;
                 case 'min_length':
                     $this->min_length($key, $label, $posted_value, $inner_value);
                     break;
                 case 'max_length':
                     $this->max_length($key, $label, $posted_value, $inner_value);
+                    break;
+                case 'unique':
+                    $this->unique($key, $label, $posted_value, $inner_value);
                     break;
                 case 'greater_than':
                     $this->greater_than($key, $label, $posted_value, $inner_value);
@@ -480,9 +537,7 @@ class Validation_helper {
     }
 
     private function validate_file($key, $label, $rules) {
-
         require_once('file_validation_helper.php');
-
     }
 
     private function attempt_invoke_callback($key, $label, $posted_value, $test_to_run) {
@@ -514,7 +569,7 @@ class Validation_helper {
 
                 if (gettype($outcome) == 'string') {
                     $outcome = str_replace('{label}', $label, $outcome);
-                    $this->form_submission_errors[] = $outcome;
+                    $this->form_submission_errors[$key][] = $outcome;
                 }
 
             }
@@ -540,19 +595,43 @@ class Validation_helper {
 function validation_errors($opening_html=NULL, $closing_html=NULL) {
 
     if (isset($_SESSION['form_submission_errors'])) {
+        $validation_err_str = '';
+        $validation_errors = [];
+        $closing_html = (isset($closing_html)) ? $closing_html : false;
         $form_submission_errors = $_SESSION['form_submission_errors'];
 
-        if (!isset($opening_html)) {
-            $opening_html = '<p style="color: red;">';
-            $closing_html = '</p>';
+        if ((isset($opening_html)) && (gettype($closing_html) == 'boolean')) {
+            //build individual form field validation error(s)
+            if (isset($form_submission_errors[$opening_html])) {
+                $validation_err_str.= '<div class="validation-error-report">';
+                $form_field_errors = $form_submission_errors[$opening_html];
+                foreach($form_field_errors as $validation_error) {
+                    $validation_err_str.= '<div>&#9679; '.$validation_error.'</div>';
+                }
+                $validation_err_str.= '</div>';
+            }
+
+            return $validation_err_str;
+
+        } else {
+            //normal error reporting
+            foreach($form_submission_errors as $key => $form_field_errors) {
+                foreach($form_field_errors as $form_field_error) {
+                    $validation_errors[] = $form_field_error;
+                }
+            }
+
+            if (!isset($opening_html)) {
+                $opening_html = '<p style="color: red;">';
+                $closing_html = '</p>';
+            }
+
+            foreach($validation_errors as $form_submission_error) {
+                $validation_err_str.= $opening_html.$form_submission_error.$closing_html;
+            }
+
+            unset($_SESSION['form_submission_errors']);
         }
-
-        foreach($form_submission_errors as $form_submission_error) {
-            echo $opening_html.$form_submission_error.$closing_html;
-        }
-
-        unset($_SESSION['form_submission_errors']);
-
+        echo $validation_err_str;
     }
-
 }
