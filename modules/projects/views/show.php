@@ -43,7 +43,10 @@
                 <div class="row">
                     <div class="full-width">
                         <div><b>Project Description</b></div>
-                        <div><?= nl2br($project_description) ?></div>
+                        <div>
+                            <?= nl2br($project_description) ?>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,7 +68,8 @@
                 echo form_submit('submit', 'Upload');
                 echo form_close();
             } else {
-                $picture_path = BASE_URL.segment(1).'_pics/'.$update_id.'/'.$picture;
+                // $picture_path = BASE_URL.segment(1).'_pics/'.$update_id.'/'.$picture;
+
             ?>
                 <p class="text-center">
                     <button class="danger" onclick="openModal('delete-picture-modal')"><i class="fa fa-trash"></i> Delete Picture</button>

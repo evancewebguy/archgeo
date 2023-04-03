@@ -331,7 +331,7 @@ class Blog_notices extends Trongate {
             if($data['blog_notices_obj']->picture != '') {
                 $data['picture_path'] = BASE_URL.'blog_notices_pics/'.$data['blog_notices_obj']->id.'/'.$data['blog_notices_obj']->picture;
             } else {
-                $data['picture_path'] = BASE_URL.'blog_notices_module/img/home-img.png';           
+                $data['picture_path'] = BASE_URL.'blog_notices_module/img/home-img1.jpg';           
             }
 
             $data['blog_notice_categories'] = $this->_get_categories($data['blog_notices_obj']->id);
@@ -374,7 +374,7 @@ class Blog_notices extends Trongate {
             if($data['blog_notices_obj']->picture != '') {
                 $data['picture_path'] = BASE_URL.'blog_notices_pics/'.$data['blog_notices_obj']->id.'/'.$data['blog_notices_obj']->picture;
             } else {
-                $data['picture_path'] = BASE_URL.'blog_notices_module/img/home-img.png';           
+                $data['picture_path'] = BASE_URL.'blog_notices_module/img/home-img1.jpg';           
             }
 
             $data['blog_notice_categories'] = $this->_get_categories($data['blog_notices_obj']->id);
@@ -558,8 +558,6 @@ class Blog_notices extends Trongate {
             $data['headline'] = 'Create New Blog Notice Record';
             $data['cancel_url'] = BASE_URL.'blog_notices/manage';
         }
-
-        
 
         $additional_includes_top[] = BASE_URL.'blog_notices_module/cleditor/jquery.cleditor.css';
         $additional_includes_top[] = BASE_URL.'blog_notices_module/js/jquery-1.8.2.min.js';

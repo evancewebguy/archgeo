@@ -3,8 +3,8 @@ class Trongate {
 
     use Dynamic_properties;
 
+    private $model;
     protected $modules;
-    protected $model;
     protected $url;
     protected $module_name;
     protected $parent_module = '';
@@ -13,10 +13,6 @@ class Trongate {
     public function __construct($module_name=NULL) {
         $this->module_name = $module_name;
         $this->modules = new Modules;
-
-        //load the model class
-        require_once 'Model.php';
-        $this->model = new Model($module_name);
     }
 
     public function load($helper) {
@@ -167,11 +163,13 @@ class Trongate {
     }
 
     public function upload_picture($data) {
-        $this->img_helper->upload($data); 
+        $uploaded_file_info = $this->img_helper->upload($data);
+        return $uploaded_file_info;
     }
 
     public function upload_file($data) {
-        $this->img_helper->upload($data); 
+        $uploaded_file_info = $this->file_helper->upload($data);
+        return $uploaded_file_info;
     }
 
 }

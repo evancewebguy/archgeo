@@ -828,7 +828,7 @@ body{
 	padding:120px 0;
 }
 .fun-facts{
-	background:url('img/breadcrumpbg.png');
+	background:url('img/breadcrumpbg.jpg');
 	background-size:cover;
 	background-repeat:no-repeat;
 }
@@ -993,7 +993,7 @@ body{
 	Start Call to action CSS
 =================================*/
 .call-action{
-	background-image:url('img/breadcrumpbg.png');
+	background-image:url('img/breadcrumpbg.jpg');
 	background-size:cover;
 	background-position:center;
 	position:relative;

@@ -26,11 +26,11 @@
 					<div class="row">
 					<?php
 						foreach ($projects as $project) {
-                            // var_dump($projects);    
+                            
 							if($project->picture != '') {
 								$project_picture = BASE_URL.'projects_pics/'.$project->id.'/'.$project->picture;
 							} else {
-								$project_picture = BASE_URL.'projects_module/img/home-img.png';
+								$project_picture = BASE_URL.'projects_module/img/home-img1.jpg';
 							}		
 							$view_project = BASE_URL.'projects/view_project/'.$project->url_string;
 					?>

@@ -1,10 +1,12 @@
 <?php
 http_response_code(404);
-?><!DOCTYPE html>
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Trongate</title>
+    <title>Archgeo</title>
 </head>
 <body>
 

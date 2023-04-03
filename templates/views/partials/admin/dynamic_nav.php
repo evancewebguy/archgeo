@@ -15,4 +15,5 @@
     <li><?= anchor('sliders/manage', '<i class="fa fa-exchange"></i> Manage Sliders') ?></li>
     <li><?= anchor('dashboards/manage', '<i class="fa fa-dashboard"></i> Dashboard') ?></li>
     <li><?= anchor('project_categorys/manage', '<i class="fa fa-question-circle-o"></i> Manage Project_categories') ?></li>
+    <li><?= anchor('product_items/manage', '<i class="fa fa-shopping-bag"></i> Manage Product Items') ?></li>
 </ul>

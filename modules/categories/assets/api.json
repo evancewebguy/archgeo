@@ -1,0 +1,60 @@
+{
+  "Remember Positions": {
+    "url_segments": "categories/remember_positions",
+    "request_type": "POST",
+    "description": "Remember positions of some child nodes",
+    "enableParams": true,
+    "authorization":{  
+        "roles": [
+            "admin"
+        ]
+    }
+  },
+  "Create": {
+    "url_segments": "api/create/categories",
+    "request_type": "POST",
+    "description": "Insert database record",
+    "enableParams": true,
+    "authorization":{  
+        "roles": [
+            "admin"
+        ]
+    },
+    "beforeHook": "_get_url_string"
+  },
+  "Update": {
+    "url_segments": "api/update/categories/{id}",
+    "request_type": "PUT",
+    "description": "Update a database record",
+    "enableParams": true,
+    "required_fields": [
+      {
+        "name": "id",
+        "label": "ID"
+      }
+    ],
+    "authorization":{  
+        "roles": [
+            "admin"
+        ]
+    },
+    "beforeHook": "_get_url_string"
+  },
+  "Delete One": {
+    "url_segments": "api/delete/categories/{id}",
+    "request_type": "DELETE",
+    "description": "Delete one row",
+    "required_fields": [
+      {
+        "name": "id",
+        "label": "ID"
+      }
+    ],
+    "authorization":{  
+        "roles": [
+            "admin"
+        ]
+    },
+    "beforeHook": "_make_sure_delete_allowed"
+  }
+}

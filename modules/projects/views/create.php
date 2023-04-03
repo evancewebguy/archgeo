@@ -18,7 +18,7 @@
         echo form_label('Status');
         echo form_input('status', $status, array("placeholder" => "Enter Status"));
         echo form_label('Project Description');
-        echo form_textarea('project_description', $project_description, array("placeholder" => "Enter Project Description", "class" =>"cleditor", "id" => "textarea"));
+        echo form_textarea('project_description', $project_description, array("placeholder" => "Enter Project Description", "id" => "textarea")); //"class" =>"cleditor",
      
         echo form_submit('submit', 'Submit');
         echo anchor($cancel_url, 'Cancel', array('class' => 'button alt'));

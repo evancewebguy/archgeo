@@ -19,8 +19,8 @@
         $attr = array("class"=>"date-picker", "autocomplete"=>"off", "placeholder"=>"Select Pubished Date");
         echo form_input('published_date', $published_date, $attr);
         echo '<div>';
-        echo form_label('Associated Notice_source');
-        echo form_dropdown('notice_sources_id', $notice_sources_options, $notice_sources_id);
+        // echo form_label('Associated Notice_source');
+        // echo form_dropdown('notice_sources_id', $notice_sources_options, $notice_sources_id);
         echo form_submit('submit', 'Submit');
         echo anchor($cancel_url, 'Cancel', array('class' => 'button alt'));
         echo form_close();

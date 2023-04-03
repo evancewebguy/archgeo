@@ -36,7 +36,7 @@
 								if($blog->picture != '') {
 									$blog_notices_picture = BASE_URL.'blog_notices_pics/'.$blog->blog_notices_id.'/'.$blog->picture;
 								} else {
-									$blog_notices_picture = BASE_URL.'blog_notices_module/img/home-img.png';
+									$blog_notices_picture = BASE_URL.'blog_notices_module/img/home-img1.jpg';
 								}		
 								$view_blog_notice = BASE_URL.'blog_notices/blog/'.$blog->url_string;
 								$blog_categories = $blog->categories;

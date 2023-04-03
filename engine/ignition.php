@@ -12,7 +12,13 @@ spl_autoload_register(function($class_name) {
         $class_name = 'tg_helpers/'.$class_name;
     }
 
-    require_once $class_name . '.php';
+    $target_filename = realpath(__DIR__.'/'.$class_name.'.php');
+
+    if (file_exists($target_filename)) {
+        return require_once($target_filename);
+    }
+
+    return false;
 });
 
 function load($template_file, $data=NULL) {
@@ -127,8 +133,8 @@ function attempt_return_nice_url($target_url) {
     return $target_url;
 }
 
-define('APPPATH', str_replace("\\", "/", dirname(dirname(__FILE__)).'/'));
-define('REQUEST_TYPE', $_SERVER['REQUEST_METHOD']);
+// define('APPPATH', str_replace("\\", "/", dirname(dirname(__FILE__)).'/'));
+// define('REQUEST_TYPE', $_SERVER['REQUEST_METHOD']);
 $tg_helpers = ['form_helper', 'flashdata_helper', 'img_helper', 'url_helper', 'validation_helper'];
 define('TRONGATE_HELPERS', $tg_helpers);
 $data = get_segments();

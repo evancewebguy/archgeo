@@ -38,7 +38,7 @@ class Projects extends Trongate {
         $this->module('trongate_security');
         $this->trongate_security->_make_sure_allowed();
 
-        $update_id = segment(3);
+        $update_id = (int)segment(3);
         $submit = post('submit');
 
         if (($submit == '') && (is_numeric($update_id))) {
@@ -108,7 +108,7 @@ class Projects extends Trongate {
     function show() {
         $this->module('trongate_security');
         $token = $this->trongate_security->_make_sure_allowed();
-        $update_id = segment(3);
+        $update_id = (int) segment(3);
 
         if ((!is_numeric($update_id)) && ($update_id != '')) {
             redirect('projects/manage');
@@ -122,6 +122,7 @@ class Projects extends Trongate {
         } else {
             //generate picture folders, if required
             $picture_settings = $this->_init_picture_settings();
+
             $this->_make_sure_got_destination_folders($update_id, $picture_settings);
 
             //attempt to get the current picture
@@ -130,6 +131,15 @@ class Projects extends Trongate {
             if ($data[$column_name] !== '') {
                 //we have a picture - display picture preview
                 $data['draw_picture_uploader'] = false;
+                $picture = $data['picture'];
+
+                if ($picture_settings['upload_to_module'] == true) {
+                    $module_assets_dir = BASE_URL.segment(1).MODULE_ASSETS_TRIGGER;
+                    $data['picture_path'] = $module_assets_dir.'/'.$picture_settings['destination'].'/'.$update_id.'/'.$picture;
+                } else {
+                    $data['picture_path'] = BASE_URL.$picture_settings['destination'].'/'.$update_id.'/'.$picture;
+                }
+
             } else {
                 //no picture - draw upload form
                 $data['draw_picture_uploader'] = true;
@@ -145,7 +155,6 @@ class Projects extends Trongate {
     // this will show the projects on the users/public side 
     function index() {
         $data['projects'] = $this->model->get('id desc');
-
 
         $total_rows = count($data['projects']);
 
@@ -168,7 +177,6 @@ class Projects extends Trongate {
             $data['no_projects'] = 'No Projects Have Been Posted Yet'; 
         }
 
-
         $data['headline'] = 'Some Of Our Projects';
         $data['view_module'] = 'projects';
         $data['view_file'] = 'display_projects';
@@ -187,7 +195,7 @@ class Projects extends Trongate {
     }
 
     function homepage_projects(){
-        $projects = $this->model->get('id desc','projects', 8, 0);
+        $projects = $this->model->get('id desc','projects', 4, 0);
         return $projects;
     }
 
@@ -206,7 +214,7 @@ class Projects extends Trongate {
             if($data['projects_obj']->picture != '') {
                 $data['picture_path'] = BASE_URL.'projects_pics/'.$data['projects_obj']->id.'/'.$data['projects_obj']->picture;
             } else {
-                $data['picture_path'] = BASE_URL.'projects_module/img/home-img.png';           
+                $data['picture_path'] = BASE_URL.'projects_module/img/home-img1.jpg';           
             }
 
             // $prev_next_projects = $this->_get_prev_next($data['projects_obj']->id);
@@ -413,23 +421,31 @@ class Projects extends Trongate {
     }
 
     function _init_picture_settings() { 
-        $picture_settings['target_column_name'] = 'picture';
+        $picture_settings['max_file_size'] = 3000;
+        $picture_settings['max_width'] = 1200;
+        $picture_settings['max_height'] = 1200;
+        $picture_settings['resized_max_width'] = 450;
+        $picture_settings['resized_max_height'] = 450;
         $picture_settings['destination'] = 'projects_pics';
+        $picture_settings['target_column_name'] = 'picture';
         $picture_settings['thumbnail_dir'] = 'projects_pics_thumbnails';
-        $picture_settings['max_file_size'] = 5000;
-        $picture_settings['max_width'] = 5200;
-        $picture_settings['max_height'] = 5200;
-        $picture_settings['resized_max_width'] = 1000;
-        $picture_settings['resized_max_height'] = 1000;
         $picture_settings['thumbnail_max_width'] = 120;
         $picture_settings['thumbnail_max_height'] = 120;
+        $picture_settings['upload_to_module'] = true;
+        $picture_settings['make_rand_name'] = false;
         return $picture_settings;
     }
 
 
     function _make_sure_got_destination_folders($update_id, $picture_settings) {
+
         $destination = $picture_settings['destination'];
-        $target_dir = APPPATH.'public/'.$destination.'/'.$update_id;
+
+        if ($picture_settings['upload_to_module'] == true) {
+            $target_dir = APPPATH.'modules/'.segment(1).'/assets/'.$destination.'/'.$update_id;
+        } else {
+            $target_dir = APPPATH.'public/'.$destination.'/'.$update_id;
+        }
 
         if (!file_exists($target_dir)) {
             //generate the image folder
@@ -437,15 +453,16 @@ class Projects extends Trongate {
         }
 
         //attempt to create thumbnail directory
-        $thumbnail_dir = trim($picture_settings['thumbnail_dir']);
-
-        if (strlen($thumbnail_dir)>0) {
-            $target_dir = APPPATH.'public/'.$thumbnail_dir.'/'.$update_id;
-            if (!file_exists($target_dir)) {
+        if (strlen($picture_settings['thumbnail_dir'])>0) {
+            $ditch = $destination.'/'.$update_id;
+            $replace = $picture_settings['thumbnail_dir'].'/'.$update_id;
+            $thumbnail_dir = str_replace($ditch, $replace, $target_dir);
+            if (!file_exists($thumbnail_dir)) {
                 //generate the image folder
-                mkdir($target_dir, 0777, true);
+                mkdir($thumbnail_dir, 0777, true);
             }
         }
+
     }
 
     function submit_upload_picture($update_id) {
@@ -481,10 +498,13 @@ class Projects extends Trongate {
                 }
 
                 //upload the picture
-                $this->upload_picture($config);
+                $config['upload_to_module'] = (!isset($picture_settings['upload_to_module']) ? false : $picture_settings['upload_to_module']);
+                $config['make_rand_name'] = $picture_settings['make_rand_name'] ?? false;
 
-                //update the database
-                $data[$target_column_name] = $_FILES['picture']['name'];
+                $file_info = $this->upload_picture($config);
+
+                //update the database with the name of the uploaded file
+                $data[$target_column_name] = $file_info['file_name'];
                 $this->model->update($update_id, $data);
 
                 $flash_msg = 'The picture was successfully uploaded';
@@ -516,14 +536,24 @@ class Projects extends Trongate {
         $picture_settings = $this->_init_picture_settings();
         $target_column_name = $picture_settings['target_column_name'];
         $picture_name = $result->$target_column_name;
-        $picture_path = $picture_settings['destination'].'/'.$update_id.'/'.$picture_name;
+
+        if ($picture_settings['upload_to_module'] == true) {
+            $picture_path = APPPATH.'modules/'.segment(1).'/assets/'.$picture_settings['destination'].'/'.$update_id.'/'.$picture_name;
+        } else {
+            $picture_path = APPPATH.'public/'.$picture_settings['destination'].'/'.$update_id.'/'.$picture_name;
+        }
+
+        $picture_path = str_replace('\\', '/', $picture_path);
 
         if (file_exists($picture_path)) {
             unlink($picture_path);
         }
 
         if (isset($picture_settings['thumbnail_dir'])) {
-            $thumbnail_path = $picture_settings['thumbnail_dir'].'/'.$update_id.'/'.$picture_name;
+            $ditch = $picture_settings['destination'].'/'.$update_id;
+            $replace = $picture_settings['thumbnail_dir'].'/'.$update_id;
+            $thumbnail_path = str_replace($ditch, $replace, $picture_path);
+
             if (file_exists($thumbnail_path)) {
                 unlink($thumbnail_path);
             }

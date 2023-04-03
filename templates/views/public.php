@@ -107,6 +107,9 @@
 				</div>
 			</div>
 			<!-- End Topbar -->
+
+
+
 			<!-- Header Inner -->
 			<div class="header-inner">
 				<div class="container">
@@ -146,7 +149,11 @@
 													<?= Modules::run('services/_draw_services_list','services') ?>
 												</ul>
 											</li>
-											<li class="<?= $current_module == "blog_notices" ? 'active': ''; ?>"><a href="<?= BASE_URL ?>blog_notices/all_blogs">Blogs</a></li>
+											<!-- <li class="<?= $current_module == "blog_notices" ? 'active': ''; ?>"><a href="<?= BASE_URL ?>blog_notices/all_blogs">Blogs</a></li> -->
+
+											
+											<li class="<?= $current_module == "product_items" ? 'active': ''; ?>"><a href="<?= BASE_URL ?>product_items">Shop</a></li>
+
 
 											<li class="<?= $current_module == "enquiries" ? 'active': ''; ?>"><a href="<?= BASE_URL ?>enquiries">Contact Us</a></li>
 										</ul>
@@ -247,15 +254,10 @@
 		</footer>
 		<!--/ End Footer Area -->
 
-		<script>
-		
-		</script>
-		
-		
 		<!-- jquery Min JS -->
         <script src="<?= BASE_URL ?>frontend/js/jquery.min.js"></script>
 		<!-- jquery Migrate JS -->
-		<script src="<?= BASE_URL ?>frontend/js/jquery-migrate-3.0.0.js"></script>
+		<script src="<?= BASE_URL ?>frontend/js/jquery-migra	te-3.0.0.js"></script>
 		<!-- Easing JS -->
         <script src="<?= BASE_URL ?>frontend/js/easing.js"></script>
 		<!-- Color JS -->
@@ -285,13 +287,7 @@
 		<!-- Magnific Popup JS -->
 		<script src="<?= BASE_URL ?>frontend/js/jquery.magnific-popup.min.js"></script>
 		<!-- Counter Up CDN JS -->
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
-		<!-- Google Map API Key JS -->
-		<script src="https://maps.google.com/maps/api/js?key=AIzaSyDGqTyqoPIvYxhn_Sa7ZrK5bENUWhpCo0w"></script>
-		<!-- Gmaps JS -->
-		<script src="<?= BASE_URL ?>frontend/js/gmaps.min.js"></script>
-		<!-- Map Active JS -->
-		<script src="<?= BASE_URL ?>frontend/js/map-active.js"></script>
+		<script src="<?= BASE_URL ?>frontend/js/waypoints.min.js"></script>
 		<!-- Bootstrap JS -->
 		<script src="<?= BASE_URL ?>frontend/js/bootstrap.min.js"></script>
 		<!-- Main JS -->

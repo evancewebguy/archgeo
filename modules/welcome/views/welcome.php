@@ -6,20 +6,14 @@ flashdata();
 			<div class="hero-slider">
 
 				<!-- Start Single Slider -->
-				<div class="single-slider" style="background-image:url('<?= BASE_URL ?>frontend/img/defaults.png')">
+				<div class="single-slider" style="background-image:url('<?= BASE_URL ?>frontend/img/defaults.jpg')">
 					<div class="container">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="text">
 									<h1>Welcome to <span>Archgeo Construction Limited</span></h1>
-									<p>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam.
-										<br>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. 
-										<br>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. 
-										<br>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. 
+									<p style="font-weight: 600; font-size: 16px;">
+									We are your trusted partner for all your landscaping needs. Our experienced team of landscapers is committed to creating and maintaining beautiful outdoor spaces that enhance the natural beauty of your property.Whether you need regular maintenance services or a complete landscape design and installation, we are here to help. Our services include lawn care, tree and shrub maintenance, irrigation systems, hardscaping, and more. With a passion for excellence and an eye for detail, we're dedicated to delivering exceptional results that exceed your expectations.
 									</p>
 									<!-- <div class="button">
 										<a href="#" class="btn">View This Service</a>
@@ -44,7 +38,7 @@ flashdata();
 							<div class="col-lg-8">
 								<div class="text">
 									<h1><?= $slide->title ?></h1>
-									<p><?= $slide->description ?> </p>
+									<p style="font-weight: 600; font-size: 16px;"><?= $slide->description ?> </p>
 									<div class="button">
 										<?php if (!empty($slide->link)) { ?>
 										<a href="<?= BASE_URL ?><?= $slide->link ?>" class="btn">View <?= $slide->link ?></a>
@@ -109,7 +103,27 @@ flashdata();
 						<div class="single-fun">
 							<i class="icofont icofont-table"></i>
 							<div class="content">
-								<span class="counter">9</span>
+								<span class="counter">
+									<?php
+									function getYearDifference($date1, $date2) {
+										// Create DateTime objects from the date strings
+										$datetime1 = new DateTime($date1);
+										$datetime2 = new DateTime($date2);
+									
+										// Calculate the difference between the two dates using the diff() method
+										$interval = $datetime1->diff($datetime2);
+									
+										// Extract the difference in years from the interval object and return it as an integer
+										return (int) $interval->format('%Y');
+									}
+
+									$date1 = '2021-01-01';
+									$date2 = date("Y-m-d");
+									$diffYears = getYearDifference($date1, $date2);
+									echo $diffYears;
+									?>
+							
+								</span>
 								<p>Years of Experience</p>
 							</div>
 						</div>
@@ -148,9 +162,9 @@ flashdata();
 								$limit =600;
 								if (strlen($description) > $limit) {
 									$new_description = substr($description, 0, $limit) .'...';
-									echo $new_description;
+									echo nl2br($new_description);
 								} else {
-									echo $description;
+									echo nl2br($description);
 								}
 							}
                             ?> 
@@ -163,7 +177,7 @@ flashdata();
 					</div>
 					<div class="col-lg-6 col-12">
 						<!-- Start Choose Rights -->
-						<div class="choose-right" style="background-image:url('<?= BASE_URL ?>projects_pictures_thumb/7/IMG_2021X9tk.jpg');">
+						<div class="choose-right" style="background-image:url('<?= BASE_URL ?>frontend/img/defaults.jpg');">
 							<div class="video-image">
 								<!-- Video Animation -->
 								<div class="promo-video">
@@ -232,7 +246,7 @@ flashdata();
 									if($project->picture != '') {
 										$project_picture = BASE_URL.'projects_pics/'.$project->id.'/'.$project->picture;
 									} else {
-										$project_picture = BASE_URL.'projects_module/img/home-img.png';
+										$project_picture = BASE_URL.'projects_module/img/home-img1.jpg';
 									}		
 									$view_project = BASE_URL.'projects/view_project/'.$project->url_string;
 
@@ -281,9 +295,9 @@ flashdata();
 
 									if (strlen($description) > $limit){
 										$new_description = substr($description, 0, $limit) .'...';
-										echo $new_description;
+										echo nl2br($new_description);
 									}else{
-										echo $description;
+										echo nl2br($description);
 									}
                             	?> 
                             <br>
@@ -304,8 +318,8 @@ flashdata();
 
 
 		<!-- Start Testimonials -->
-		<?php if(count($testimonies) > 0){ ?>
-		<section class="section testimonials overlay" data-stellar-background-ratio="0.5">
+		<?php //if(count($testimonies) > 0){ ?>
+		<!-- <section class="section testimonials overlay" data-stellar-background-ratio="0.5">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
@@ -317,41 +331,41 @@ flashdata();
 				</div>
 				<div class="row">
 					<div class="col-lg-12 col-12">
-						<div class="owl-carousel testimonial-slider">
+						<div class="owl-carousel testimonial-slider"> -->
 
 							<?php
-                                foreach ($testimonies as $testimony) {
-									$picture_path = BASE_URL ."/testimonys_module/testimonys_pics_thumbnails/".$testimony->id ."/".$testimony->picture
+                                // foreach ($testimonies as $testimony) {
+								// 	$picture_path = BASE_URL ."/testimonys_module/testimonys_pics_thumbnails/".$testimony->id ."/".$testimony->picture
                             ?>
 							<!-- Start Single Testimonial -->
-							<div class="single-testimonial">
+							<!-- <div class="single-testimonial">
 
 								<img src="<?= $picture_path ?>" alt="<?= $testimony->name ?>">
 								<p><?php 
-								$description = $testimony->testimony;
-								$limit =100;
+								// $description = $testimony->testimony;
+								// $limit =100;
 
-								if (strlen($description) > $limit){
-									$new_description = substr($description, 0, $limit) .'...';
-									echo $new_description;
-								}else{
-									echo $description;
-								}
+								// if (strlen($description) > $limit){
+								// 	$new_description = substr($description, 0, $limit) .'...';
+								// 	echo $new_description;
+								// }else{
+								// 	echo $description;
+								// }
 								
 								?> </p>
 								<p>platform: <b><?= $testimony->platform ?></b></p>
 								<h4 class="name"><?= $testimony->name ?></h4>
-							</div>
+							</div> -->
 							<!-- End Single Testimonial -->
-							<?php } ?>
+							<?php //} ?>
 
-
+<!-- 
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
-		<?php } ?>
+		</section> -->
+		<?php// } ?>
 		<!--/ End Testimonials -->
 		
 
@@ -419,6 +433,8 @@ flashdata();
 									}else{
 										$dynamic_class = " ";
 									}
+									// BASE_URL.'projects_module/img/home-img1.jpg
+									$picture_path = BASE_URL ."/processes_module/processes_pics/".$process->id ."/".$process->picture
 							?>	
 								<!-- Tab 1 -->
 								<div class='tab-pane fade show <?= $dynamic_class ?>' id='t-tab<?=	$key+1 ?>' role="tabpanel">
@@ -427,13 +443,13 @@ flashdata();
 											<div class="department-left">
 												<h3><?= $processes[$key]->process_name ?></h3>
 												<p class="p1">
-												<?= $processes[$key]->process_description ?>
+												<?= nl2br($processes[$key]->process_description) ?>
 												</p>
 											</div>
 										</div>
 										<div class="col-lg-6">
 											<div class="department-right">
-												<img src="<?= BASE_URL ?>projects_pictures_thumb/7/IMG_2021X9tk.jpg" alt="#" style="height:300px; width:450px;">
+												<img src="<?= $picture_path ?>" alt="#" style="height:300px; width:450px;">
 											</div>
 										</div>
 									</div>
@@ -451,57 +467,6 @@ flashdata();
 		<?php } ?>	
 		
 
-		<!-- Start Blog Area -->
-		<?php if (count($articles))  { ?>
-		<section class="blog section" id="blog">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="section-title">
-							<h2>Keep up with Our Most Recent Archgeo News.</h2>
-							<img src="img/sectionimg.png" alt="#">
-							<p>These are our Latest News. Click to view more details</p>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-
-				<?php
-					foreach($articles as $article){
-						if($article->picture != '') {
-							$blog_notices_picture = BASE_URL.'blog_notices_pics/'.$article->id.'/'.$article->picture;
-						} else {
-							$blog_notices_picture = BASE_URL.'blog_notices_module/img/home-img.png';
-						}		
-						$view_blog_notice = BASE_URL.'blog_notices/blog/'.$article->url_string;
-				?>
-					<div class="col-lg-4 col-md-6 col-12">
-						<!-- Single Blog -->
-						<div class="single-news">
-							<div class="news-head">
-								<a href="<?= $view_blog_notice ?>">
-									<img src="<?= $blog_notices_picture ?>" alt="<?= $article->blog_title  ?>">
-								</a>
-							</div>
-							<div class="news-body">
-								<div class="news-content">
-									<div class="date"><?= date('M j \, Y',  strtotime($article->published_date)) ?> </div>
-									<h2><a href="<?= $view_blog_notice ?>"><?= $article->blog_title ?></a></h2>
-									<p class="text">
-
-									</p>
-								</div>
-							</div>
-						</div>
-						<!-- End Single Blog -->
-					</div>
-					<?php } ?>
-				</div>
-			</div>
-		</section>
-		<?php } ?>
-		<!-- End Blog Area -->
-		
 
 		<!-- Start clients -->
 		<?php if (count($clientlogos))  { ?>

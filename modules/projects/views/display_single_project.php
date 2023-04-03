@@ -38,7 +38,7 @@
 					</div>
 					<div class="body-text">
 						<h3><?= $projects_obj->client_name ?></h3>
-						<p><?= $projects_obj->project_description ?></p>
+						<p><?= nl2br($projects_obj->project_description) ?></p>
 						<div class="share">
 							<h4>Share Now -</h4>
 							<ul>

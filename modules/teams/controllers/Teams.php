@@ -138,7 +138,7 @@ class Teams extends Trongate {
             if($data['teams_obj']->picture != '') {
                 $data['picture_path'] = BASE_URL.'teams_pics/'.$data['teams_obj']->id.'/'.$data['teams_obj']->picture;
             } else {
-                $data['picture_path'] = BASE_URL.'teams_module/img/home-img.png';           
+                $data['picture_path'] = BASE_URL.'teams_module/img/home-img1.jpg';           
             }
             $data['headline'] = 'Staff Information';
             $data['view_module'] = 'teams';

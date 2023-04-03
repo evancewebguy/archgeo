@@ -122,7 +122,7 @@ class Services extends Trongate {
             if($data['services_obj']->picture != '') {
                 $data['picture_path'] = BASE_URL.'services_pics/'.$data['services_obj']->id.'/'.$data['services_obj']->picture;
             } else {
-                $data['picture_path'] = BASE_URL.'services_module/img/home-img.png';           
+                $data['picture_path'] = BASE_URL.'services_module/img/home-img1.jpg';           
             }
 
 

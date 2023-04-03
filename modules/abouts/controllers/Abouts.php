@@ -118,8 +118,8 @@ class Abouts extends Trongate {
     function index() {
         // $data['rows'] = $this->model->get('id desc');
 
-        $url_string = segment(1);
-        $data['abouts_obj'] = $this->model->get('url_string', $url_string, 'abouts');
+        // $url_string = segment(1);
+        $data['abouts_obj'] = $this->model->get('id desc', 'abouts', 1, 0);
         // var_dump($data['abouts_obj']); die();
 
         if($data['abouts_obj'] == false){
@@ -135,16 +135,6 @@ class Abouts extends Trongate {
              * picture path shouldin modules asset 
              */
 
-
-            // if($data['teams_obj']->picture != '') {
-            //     $data['picture_path'] = BASE_URL.'teams_pics/'.$data['teams_obj']->id.'/'.$data['teams_obj']->picture;
-            // } else {
-            //     $data['picture_path'] = BASE_URL.'teams_module/img/home-img.png';           
-            // }
-            // $data['headline'] = 'Staff Information';
-            // $data['view_module'] = 'teams';
-            // $data['view_file'] = 'display_single_staff';
-            // $this->template('public', $data);
 
             $this->module('clientlogos');
             $data['clientlogos'] = $this->clientlogos->homepage_clientlogos();
@@ -198,7 +188,7 @@ class Abouts extends Trongate {
 
                 $update_id = segment(3);
                 $data = $this->_get_data_from_post();
-                $data['url_string'] = strtolower(url_title($data['company_information']));
+                // $data['url_string'] = strtolower(url_title($data['company_information']));
 
                 if (is_numeric($update_id)) {
                     //update an existing record

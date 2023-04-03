@@ -78,6 +78,29 @@ class Processes extends Trongate {
         if ($data == false) {
             redirect('processes/manage');
         } else {
+            //generate picture folders, if required
+            $picture_settings = $this->_init_picture_settings();
+            $this->_make_sure_got_destination_folders($update_id, $picture_settings);
+
+            //attempt to get the current picture
+            $column_name = $picture_settings['target_column_name'];
+
+            if ($data[$column_name] !== '') {
+                //we have a picture - display picture preview
+                $data['draw_picture_uploader'] = false;
+                $picture = $data['picture'];
+
+                if ($picture_settings['upload_to_module'] == true) {
+                    $module_assets_dir = BASE_URL.segment(1).MODULE_ASSETS_TRIGGER;
+                    $data['picture_path'] = $module_assets_dir.'/'.$picture_settings['destination'].'/'.$update_id.'/'.$picture;
+                } else {
+                    $data['picture_path'] = BASE_URL.$picture_settings['destination'].'/'.$update_id.'/'.$picture;
+                }
+
+            } else {
+                //no picture - draw upload form
+                $data['draw_picture_uploader'] = true;
+            }
             $data['update_id'] = $update_id;
             $data['headline'] = 'Process Information';
             $data['view_file'] = 'show';
@@ -240,4 +263,145 @@ class Processes extends Trongate {
         return $data;
     }
 
+    function _init_picture_settings() { 
+        $picture_settings['max_file_size'] = 4000;
+        $picture_settings['max_width'] = 1200;
+        $picture_settings['max_height'] = 1200;
+        $picture_settings['resized_max_width'] = 450;
+        $picture_settings['resized_max_height'] = 450;
+        $picture_settings['destination'] = 'processes_pics';
+        $picture_settings['target_column_name'] = 'picture';
+        $picture_settings['thumbnail_dir'] = 'processes_pics_thumbnails';
+        $picture_settings['thumbnail_max_width'] = 120;
+        $picture_settings['thumbnail_max_height'] = 120;
+        $picture_settings['upload_to_module'] = true;
+        $picture_settings['make_rand_name'] = false;
+        return $picture_settings;
+    }
+
+    function _make_sure_got_destination_folders($update_id, $picture_settings) {
+
+        $destination = $picture_settings['destination'];
+
+        if ($picture_settings['upload_to_module'] == true) {
+            $target_dir = APPPATH.'modules/'.segment(1).'/assets/'.$destination.'/'.$update_id;
+        } else {
+            $target_dir = APPPATH.'public/'.$destination.'/'.$update_id;
+        }
+
+        if (!file_exists($target_dir)) {
+            //generate the image folder
+            mkdir($target_dir, 0777, true);
+        }
+
+        //attempt to create thumbnail directory
+        if (strlen($picture_settings['thumbnail_dir'])>0) {
+            $ditch = $destination.'/'.$update_id;
+            $replace = $picture_settings['thumbnail_dir'].'/'.$update_id;
+            $thumbnail_dir = str_replace($ditch, $replace, $target_dir);
+            if (!file_exists($thumbnail_dir)) {
+                //generate the image folder
+                mkdir($thumbnail_dir, 0777, true);
+            }
+        }
+
+    }
+
+    function submit_upload_picture($update_id) {
+
+        $this->module('trongate_security');
+        $this->trongate_security->_make_sure_allowed();
+
+        if ($_FILES['picture']['name'] == '') {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $picture_settings = $this->_init_picture_settings();
+        extract($picture_settings);
+
+        $validation_str = 'allowed_types[gif,jpg,jpeg,png]|max_size['.$max_file_size.']|max_width['.$max_width.']|max_height['.$max_height.']';
+        $this->validation_helper->set_rules('picture', 'item picture', $validation_str);
+
+        $result = $this->validation_helper->run();
+
+        if ($result == true) {
+
+            $config['destination'] = $destination.'/'.$update_id;
+            $config['max_width'] = $resized_max_width;
+            $config['max_height'] = $resized_max_height;
+
+            if ($thumbnail_dir !== '') {
+                $config['thumbnail_dir'] = $thumbnail_dir.'/'.$update_id;
+                $config['thumbnail_max_width'] = $thumbnail_max_width;
+                $config['thumbnail_max_height'] = $thumbnail_max_height;
+            }
+
+            //upload the picture
+            $config['upload_to_module'] = (!isset($picture_settings['upload_to_module']) ? false : $picture_settings['upload_to_module']);
+            $config['make_rand_name'] = $picture_settings['make_rand_name'] ?? false;
+
+            $file_info = $this->upload_picture($config);
+
+            //update the database with the name of the uploaded file
+            $data[$target_column_name] = $file_info['file_name'];
+            $this->model->update($update_id, $data);
+
+            $flash_msg = 'The picture was successfully uploaded';
+            set_flashdata($flash_msg);
+            redirect($_SERVER['HTTP_REFERER']);
+
+        } else {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+        
+    }
+
+    function ditch_picture($update_id) {
+
+        if (!is_numeric($update_id)) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $this->module('trongate_security');
+        $this->trongate_security->_make_sure_allowed();
+
+        $result = $this->model->get_where($update_id);
+
+        if ($result == false) {
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        $picture_settings = $this->_init_picture_settings();
+        $target_column_name = $picture_settings['target_column_name'];
+        $picture_name = $result->$target_column_name;
+
+        if ($picture_settings['upload_to_module'] == true) {
+            $picture_path = APPPATH.'modules/'.segment(1).'/assets/'.$picture_settings['destination'].'/'.$update_id.'/'.$picture_name;
+        } else {
+            $picture_path = APPPATH.'public/'.$picture_settings['destination'].'/'.$update_id.'/'.$picture_name;
+        }
+
+        $picture_path = str_replace('\\', '/', $picture_path);
+
+        if (file_exists($picture_path)) {
+            unlink($picture_path);
+        }
+
+        if (isset($picture_settings['thumbnail_dir'])) {
+            $ditch = $picture_settings['destination'].'/'.$update_id;
+            $replace = $picture_settings['thumbnail_dir'].'/'.$update_id;
+            $thumbnail_path = str_replace($ditch, $replace, $picture_path);
+
+            if (file_exists($thumbnail_path)) {
+                unlink($thumbnail_path);
+            }
+        }
+
+        $data[$target_column_name] = '';
+        $this->model->update($update_id, $data);
+        
+        $flash_msg = 'The picture was successfully deleted';
+        set_flashdata($flash_msg);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

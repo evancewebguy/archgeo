@@ -36,7 +36,7 @@
                     <div class="about-content">
                         <span>About Us</span>
                         <h2>Company Information</h2>
-                        <p><?= $abouts_obj[0]->company_information ?></p>
+                        <p><?= nl2br($abouts_obj[0]->company_information) ?></p>
                         <!-- <ul>
                             <li><i class="icofont-tick-mark"></i> Scientific Skills For getting a better result</li>
                             <li><i class="icofont-tick-mark"></i> Communication Skills to getting in touch</li>
@@ -64,7 +64,7 @@
                             <i class="icofont-tick-mark"></i>
                         </div>
                         <h3>Our Mission</h3>
-                        <p><?= $abouts_obj[0]->mission ?></p>
+                        <p><?= nl2br($abouts_obj[0]->mission) ?></p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
@@ -73,7 +73,7 @@
                             <i class="icofont-tick-mark"></i>
                         </div>
                         <h3>Our Vision</h3>
-                        <p><?= $abouts_obj[0]->vision ?></p>
+                        <p><?= nl2br($abouts_obj[0]->vision) ?></p>
                     </div>
                 </div>
             </div>
@@ -153,39 +153,8 @@
                     <div class="our-mission-content">
                         <span class="sub-title">Our Core Values</span>
                         <h2>Our Core Values</h2>
-                        <?= $abouts_obj[0]->core_values ?>
+                        <?= nl2br($abouts_obj[0]->core_values) ?>
 
-
-                        <!-- <ul>
-                            <li>
-                                <div class="icon">
-                                    <i class="icofont-doctor"></i>
-                                </div>
-                                <span>Professional Staff</span>
-                                Lorem ipsum dolor sit amet sit, consectetur adipiscing elit.
-                            </li>
-                            <li>
-                                <div class="icon">
-                                   <i class="icofont-kid"></i>
-                                </div>
-                                <span>Newborn Care</span>
-                                Lorem ipsum dolor sit amet sit, consectetur adipiscing elit.
-                            </li>
-                            <li>
-                                <div class="icon">
-                                    <i class="icofont-laboratory"></i>
-                                </div>
-                                <span>Sufficient Lab Tests</span>
-                                Lorem ipsum dolor sit amet sit, consectetur adipiscing elit.
-                            </li>
-                            <li>
-                                <div class="icon">
-                                   <i class="icofont-tooth"></i>
-                                </div>
-                                <span>Tooth Extraction</span>
-                                Lorem ipsum dolor sit amet sit, consectetur adipiscing elit.
-                            </li>
-                        </ul> -->
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 p-0">

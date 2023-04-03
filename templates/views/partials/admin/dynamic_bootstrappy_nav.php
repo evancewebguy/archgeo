@@ -36,6 +36,15 @@
 	  	    </ul>				
 		</li>
 
+        <!-- Shop Management dropdown -->
+		<li class="dropdown"><div><i class="fa fa-file-text-o"></i> Shop Management</div><div><i class="fa fa-caret-right"></i></div></li>
+		<li class="dropdown-area">
+			<ul>
+		  		<li><?= anchor('categories/manage', 'Product Categories') ?></li>
+                <li><?= anchor('product_items/manage', 'Manage Products') ?></li>
+	  	    </ul>				
+		</li>
+
         <!-- Blog dropdown -->
         <li class="dropdown"><div><i class="fa fa-list-ol"></i> Manage News</div><div><i class="fa fa-caret-right"></i></div></li>
         <li class="dropdown-area">

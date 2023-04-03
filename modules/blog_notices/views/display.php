@@ -107,7 +107,7 @@ fjs.parentNode.insertBefore(js, fjs);
                 if($blog_notice->picture != '') {
                     $blog_notices_picture = BASE_URL.'blog_notices_pics/'.$blog_notice->blog_notices_id.'/'.$blog_notice->picture;
                 } else {
-                    $blog_notices_picture = BASE_URL.'blog_notices_module/img/home-img.png';
+                    $blog_notices_picture = BASE_URL.'blog_notices_module/img/home-img1.jpg';
                 }
                 
                 $view_blog_notice = BASE_URL.'blog_notices/display/'.$blog_notice->url_string;

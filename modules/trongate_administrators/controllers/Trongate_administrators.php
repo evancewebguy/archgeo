@@ -3,7 +3,9 @@ class Trongate_administrators extends Trongate {
 
     //NOTE: the default username and password is 'admin' and 'admin'
     private $secret_login_segment = 'archgeo-admin';
-    private $dashboard_home = 'trongate_administrators/manage'; //where to go after login
+    private $dashboard_home = 'dashboards/manage'; //where to go after login
+
+    // private $dashboard_home = 'trongate_administrators/manage'; //where to go after login
 
     function login() {
 

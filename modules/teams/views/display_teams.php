@@ -29,7 +29,7 @@
                     if($team->picture != '') {
                         $team_picture = BASE_URL.'teams_pics/'.$team->id.'/'.$team->picture;
                     } else {
-                        $team_picture = BASE_URL.'teams_module/img/home-img.png';
+                        $team_picture = BASE_URL.'teams_module/img/home-img1.jpg';
                     }		
                     $view_team = BASE_URL.'teams/view_staff/'.$team->url_string;
             ?>
