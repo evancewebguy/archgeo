@@ -62,7 +62,7 @@ flashdata();
 	
 
 		<!-- Start Fun-facts -->
-		<div id="fun-facts" class="fun-facts section overlay">
+		<div id="fun-facts" class="fun-facts section overlay d-none d-sm-block">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3 col-md-6 col-12">
@@ -92,7 +92,7 @@ flashdata();
 						<div class="single-fun">
 							<i class="icofont-simple-smile"></i>
 							<div class="content">
-								<span class="counter">379</span>
+								<span class="counter">79</span>
 								<p>Total Projects</p>
 							</div>
 						</div>
